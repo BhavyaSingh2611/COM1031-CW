@@ -6,6 +6,7 @@
 #include <math.h>
 //Defines the button component
 #define BUTTON_PIN 16
+
 //Defines functions so they can be referenced throughout the code
 void decoder();
 
@@ -17,6 +18,7 @@ bool repeating_timer_callback(struct repeating_timer *t) {
     decoder();
     return true;
 }
+
 //Defines variables
 uint64_t t;
 uint64_t tpush;
@@ -25,7 +27,6 @@ char morse_input[5];
 
 int pressed = 0;
 
-bool debug_mode = false;
 bool is_timer_set = false;
 
 struct repeating_timer timer;
@@ -65,7 +66,7 @@ int main() {
                     }
                 }
                 break;
-            //Checks if the button has been released
+                //Checks if the button has been released
             case 1:
                 if (!i) {
                     //Switches case back to 0
@@ -77,20 +78,14 @@ int main() {
                         sleep_ms(500);
                         seven_segment_off();
                         wipe_array();
-                    //Detects if longer than 250ms
+                        //Detects if longer than 250ms
                     } else if ((t - tpush) > 250000) {
                         check_button('-');
                         pressed++;
-                        if (debug_mode) {
-                            printf("Button Held \n");
-                        }
-                    //Detects if less than 250ms
+                        //Detects if less than 250ms
                     } else if ((t - tpush) < 250000) {
                         check_button('.');
                         pressed++;
-                        if (debug_mode) {
-                            printf("Button Pushed \n");
-                        }
                     }
                     //Validation to avoid duplicate timers
                     if (!is_timer_set) {
@@ -105,6 +100,7 @@ int main() {
         sleep_until((absolute_time_t) {t + 10000});
     }
 }
+
 //Clears the current input so it becomes \0\0\0\0\0
 void wipe_array() {
     for (int i = 0; i < sizeof(morse_input); i++) {
@@ -112,6 +108,7 @@ void wipe_array() {
     }
     pressed = 0;
 }
+
 //Checks button input in order to assign the correct segment output and output it to the console
 void decoder() {
     if (pressed > 5) {
@@ -231,11 +228,12 @@ void decoder() {
     }
     wipe_array();
 }
+
 //Can't overwrite current morse characters unless wipe_array() is called
 void check_button(char add) {
     for (int i = 0; i < sizeof(morse_input); i++) {
-    //Checks if the char position is already \0
-    //Assign the input to the array
+        //Checks if the char position is already \0
+        //Assign the input to the array
         if (morse_input[i] == '\0') {
             morse_input[i] = add;
             break;
