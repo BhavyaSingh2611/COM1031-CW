@@ -77,14 +77,17 @@ int main() {
                         seven_segment_show(8);
                         sleep_ms(500);
                         seven_segment_off();
+                        printf("Error: Button held for too long");
                         wipe_array();
                         //Detects if longer than 250ms
                     } else if ((t - tpush) > 250000) {
                         check_button('-');
+                        printf("Button held");
                         pressed++;
                         //Detects if less than 250ms
                     } else if ((t - tpush) < 250000) {
                         check_button('.');
+                        printf("Button pressed");
                         pressed++;
                     }
                     //Validation to avoid duplicate timers
@@ -101,7 +104,7 @@ int main() {
     }
 }
 
-//Clears the current input so it becomes \0\0\0\0\0
+//Clears the current input, so it becomes \0\0\0\0\0
 void wipe_array() {
     for (int i = 0; i < sizeof(morse_input); i++) {
         morse_input[i] = '\0';
@@ -223,7 +226,6 @@ void decoder() {
         seven_segment_show(35); //z
         printf("--.. : Z\n");
     } else if (strcmp(morse_input, "\0\0\0\0\0") != 0) {
-        //seven_segment_show(36);
         printf("No match found\n");
     }
     wipe_array();
