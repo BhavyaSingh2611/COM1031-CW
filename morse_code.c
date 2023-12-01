@@ -226,7 +226,10 @@ void decoder() {
         seven_segment_show(35); //z
         printf("--.. : Z\n");
     } else if (strcmp(morse_input, "\0\0\0\0\0") != 0) {
-        printf("No match found\n");
+        seven_segment_show(8);
+        sleep_ms(500);
+        seven_segment_off();
+        printf("Error: No match found\n");
     }
     wipe_array();
 }
