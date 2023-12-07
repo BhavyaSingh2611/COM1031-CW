@@ -77,7 +77,7 @@ int main() {
                         seven_segment_show(8);
                         sleep_ms(500);
                         seven_segment_off();
-                        printf("Error: Button held for too long");
+                        printf("Error: Button held for too long\n");
                         wipe_array();
                         //Detects if longer than 250ms
                     } else if ((t - tpush) > 250000) {
@@ -115,7 +115,7 @@ void wipe_array() {
 //Checks button input in order to assign the correct segment output and output it to the console
 void decoder() {
     if (pressed > 5) {
-        printf("Error: Too many inputs");
+        printf("Error: Too many inputs\n");
         seven_segment_show(8);
         busy_wait_ms(500);
         seven_segment_off();
