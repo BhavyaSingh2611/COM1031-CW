@@ -82,12 +82,12 @@ int main() {
                         //Detects if longer than 250ms
                     } else if ((t - tpush) > 250000) {
                         check_button('-');
-                        printf("Button held");
+                        printf("Button held\n");
                         pressed++;
                         //Detects if less than 250ms
                     } else if ((t - tpush) < 250000) {
                         check_button('.');
-                        printf("Button pressed");
+                        printf("Button pressed\n");
                         pressed++;
                     }
                     //Validation to avoid duplicate timers
@@ -116,7 +116,9 @@ void wipe_array() {
 void decoder() {
     if (pressed > 5) {
         printf("Error: Too many inputs");
-        seven_segment_show(36);
+        seven_segment_show(8);
+        busy_wait_ms(500);
+        seven_segment_off();
     } else if (strcmp(morse_input, "-----") == 0) {
         seven_segment_show(0);
         printf("----- : 0\n");
@@ -227,7 +229,7 @@ void decoder() {
         printf("--.. : Z\n");
     } else if (strcmp(morse_input, "\0\0\0\0\0") != 0) {
         seven_segment_show(8);
-        sleep_ms(500);
+        busy_wait_ms(500);
         seven_segment_off();
         printf("Error: No match found\n");
     }
